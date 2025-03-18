@@ -2,6 +2,8 @@ import librosa
 import numpy as np
 import cv2
 
+#hi
+
 def wav_to_mel(wav_path, output_size=(224, 224), sr=16000):
     y, sr = librosa.load(wav_path, sr=sr) 
     
