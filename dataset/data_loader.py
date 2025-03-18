@@ -6,7 +6,7 @@ import os
 from torch.utils.data import Dataset, DataLoader, random_split
 from PIL import Image
 from dataset.wav_to_mel import wav_to_mel
-
+from config import CONFIG
 def prepare_data(dataset_dir):
     """
     주어진 디렉토리에서 RGB, Depth, IR 이미지 경로를 추출하여 데이터 리스트를 반환합니다.
@@ -18,7 +18,8 @@ def prepare_data(dataset_dir):
     for subdir in os.listdir(dataset_dir):  # subdir: 디렉토리 안에 있는 모든 scene들
         rgb_dir = os.path.join(dataset_dir, subdir, "RGB")
         depth_dir = os.path.join(dataset_dir, subdir, "DEPTH")
-        ir_dir = os.path.join(dataset_dir, subdir, "convolved_audio")
+        ir_dir = os.path.join(dataset_dir, subdir, "convolved_audio", CONFIG["sound_type"])
+        # ir_dir = os.path.join(dataset_dir, subdir, "basic_binaural_IR")
         
         rgb_files = os.listdir(rgb_dir) # /wc2JMjhGNzB_rgb_270_0.jpg, ... 
         depth_files = os.listdir(depth_dir)

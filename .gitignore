@@ -173,7 +173,12 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-*.pth
-
 /home/mihyun/Sound2Depth/output/*
-dataset/*.json
+
+# Weights & Biases logs
+wandb/
+
+# Model checkpoints
+checkpoints/
+*.pth
+*.pt

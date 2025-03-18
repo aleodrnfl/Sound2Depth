@@ -51,7 +51,7 @@ class UNet(nn.Module):
     def __init__(self):
         super(UNet, self).__init__()
 
-        self.e1 = EncoderBlock(5, 64)
+        self.e1 = EncoderBlock(4, 64)
         self.e2 = EncoderBlock(64, 128)
         self.e3 = EncoderBlock(128, 256)
         self.e4 = EncoderBlock(256, 512)
