@@ -8,11 +8,7 @@ from PIL import Image
 from dataset.wav_to_mel import wav_to_mel
 from config import CONFIG
 def prepare_data(dataset_dir):
-    """
-    주어진 디렉토리에서 RGB, Depth, IR 이미지 경로를 추출하여 데이터 리스트를 반환합니다.
-    :param dataset_dir: 데이터가 저장된 루트 디렉토리 경로
-    :return: 데이터 경로를 포함하는 리스트
-    """
+
     data_list = []
     
     for subdir in os.listdir(dataset_dir):  # subdir: 디렉토리 안에 있는 모든 scene들
@@ -58,7 +54,6 @@ class CustomDataset(Dataset):
         depth = torch.tensor(depth, dtype=torch.float32)
         depth = self.resize(depth)
         
-        # wav 파일을 mel spectrogram으로 변환
         ir = wav_to_mel(ir_path)
         ir = torch.tensor(ir, dtype=torch.float32)
         ir = self.resize(ir)

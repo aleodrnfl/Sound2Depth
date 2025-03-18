@@ -9,7 +9,6 @@ from config import CONFIG
 import numpy as np
 import wandb
 
-# wandb 초기화
 wandb.init(
     project="sound2depth",
     config={
@@ -24,7 +23,6 @@ wandb.init(
     }
 )
 
-# 학습 함수
 def train_model(train_loader, model, criterion, optimizer, device):
     model.train()
     for epoch in range(CONFIG["num_epochs"]):
@@ -44,17 +42,14 @@ def train_model(train_loader, model, criterion, optimizer, device):
             optimizer.step()
             total_loss += loss.item()
         
-        # 에포크 단위 평균 loss 계산 및 기록
         epoch_loss = total_loss / len(train_loader)
         print(f"Epoch [{epoch+1}/{CONFIG['num_epochs']}], Loss: {epoch_loss:.4f}")
         
-        # wandb에 에포크 단위 loss 기록
         wandb.log({
             "mse_loss": epoch_loss,
             "epoch": epoch + 1
         })
         
-        # 주기적으로 모델 체크포인트 저장
         if (epoch + 1) % 5 == 0:
             torch.save({
                 'epoch': epoch + 1,
@@ -63,10 +58,8 @@ def train_model(train_loader, model, criterion, optimizer, device):
                 'loss': epoch_loss,
             }, f'checkpoints/{CONFIG["sound_type"]}_epoch_{epoch+1}.pth')
             
-            # wandb에 모델 체크포인트 업로드
             wandb.save(f'checkpoints/{CONFIG["sound_type"]}_epoch_{epoch+1}.pth')
 
-# 학습 실행
 def main():
     
     dataset_dir = CONFIG["dataset_dir"]
@@ -89,12 +82,10 @@ def main():
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=CONFIG["learning_rate"])
 
-    # wandb에 모델 아키텍처 기록
     wandb.watch(model)
 
     train_model(train_loader, model, criterion, optimizer, CONFIG["device"])
     
-    # wandb 종료
     wandb.finish()
 
 

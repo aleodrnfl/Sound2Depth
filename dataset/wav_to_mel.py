@@ -22,10 +22,8 @@ def wav_to_mel(wav_path, output_size=(224, 224), sr=16000):
     # amplitude_to_db로 변환
     magnitude_db = librosa.amplitude_to_db(magnitude, ref=np.max)
     
-    # 정규화
     magnitude_norm = (magnitude_db - magnitude_db.min()) / (magnitude_db.max() - magnitude_db.min())
     
-    # 리사이즈
     magnitude_resized = cv2.resize(magnitude_norm, output_size, interpolation=cv2.INTER_CUBIC)
     
     return magnitude_resized[np.newaxis, ...]
